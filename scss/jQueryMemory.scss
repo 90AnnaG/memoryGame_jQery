@@ -1,0 +1,82 @@
+@import "mixins-project-3";
+@import "_breakpoints";
+@import "_variables";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    @include body-style;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header-container {
+    @include header-container;
+
+    &__my-gitHub {
+        @include gh-icon;
+    }
+
+    &__project-name {
+        @include project-name;
+    }
+}
+
+.main-container {
+    @include main-container-style;
+
+    &__project-description {
+        @include project-description;
+    }
+
+    .game-box {
+        @include game-box;
+
+        &__end-message {
+            @include end-message;
+        }
+
+        .button-container {
+            @include button-container;
+
+            &__counter {
+                @include counter;
+            }
+
+            &__reset-btn {
+                @include reset-btn;
+
+                &:hover {
+                    transform : scale(0.8);
+                    transition: 0.3s;
+                }
+            }
+        }
+
+        &__cards-container {
+            @include cards-container;
+        }
+
+        &__cards-container div {
+            @include game-img-box;
+        }
+
+        &__cards-container div img {
+            @include game-img;
+        }
+    }
+}
+
+.footer {
+    @include footer;
+
+    &__copyright {
+        @include footer-copyright;
+    }
+}
