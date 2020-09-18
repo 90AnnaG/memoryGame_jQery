@@ -3,7 +3,7 @@ let imgOpened = '';
 let counter = 0;
 let imgFound = 0;
 const showPoints = '.button-container__counter';
-const message = '.game-box__end-message';
+const messageForUser = '.game-box__end-message';
 const resetBtn = '.button-container__reset-btn';
 const source = '.game-box__cards-container';
 
@@ -43,7 +43,7 @@ $(resetBtn).click(function() {
     $(source + ' div').css('visibility', 'visible');
     counter = 0;
     $(showPoints).html('' + counter);
-    $(message).text(" ");
+    $(messageForUser).text(" ");
     boxOpened = '';
     imgOpened = '';
     imgFound = 0;
@@ -89,7 +89,7 @@ function OpenCard() {
         counter++;
         $(showPoints).html("" + counter);
         if (imgFound == imgSource.length) {
-            $(message).text('Wygrana! Ilość prób ' + counter + '!');
+            $(messageForUser).text('Wygrana! Ilość prób ' + counter + '!');
         }
     }
 };
