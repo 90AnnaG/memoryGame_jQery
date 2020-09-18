@@ -5,9 +5,9 @@ let imgFound = 0;
 const showPoints = '.button-container__counter';
 const messageForUser = '.game-box__end-message';
 const resetBtn = '.button-container__reset-btn';
-const source = '.game-box__cards-container';
+const gameContainer = '.game-box__cards-container';
 
-const imgSource = ['images/1.svg', 'images/2.svg', "images/3.svg", 'images/4.svg', 'images/5.svg',
+const imagesForGame = ['images/1.svg', 'images/2.svg', "images/3.svg", 'images/4.svg', 'images/5.svg',
     'images/6.svg', 'images/7.svg', 'images/8.svg', 'images/9.svg', 'images/10.svg'];
 
 // randomizing images
@@ -16,8 +16,8 @@ function RandomFunction(MaxValue, MinValue) {
 };
 
 function ShuffleImages() {
-    let ImgAll = $(source).children();
-    let ImgThis = $(source + ' div:first-child');
+    let ImgAll = $(gameContainer).children();
+    let ImgThis = $(gameContainer + ' div:first-child');
     let ImgArr = new Array();
 
     for (let i = 0; i < ImgAll.length; i++) {
@@ -25,7 +25,7 @@ function ShuffleImages() {
         ImgThis = ImgThis.next();
     }
 
-    ImgThis = $(source + ' div:first-child');
+    ImgThis = $(gameContainer + ' div:first-child');
 
     for (let z = 0; z < ImgAll.length; z++) {
         let RandomNumber = RandomFunction(0, ImgArr.length - 1);
@@ -39,8 +39,8 @@ function ShuffleImages() {
 // reset game
 $(resetBtn).click(function() {
     ShuffleImages();
-    $(source + ' div img').hide();
-    $(source + ' div').css('visibility', 'visible');
+    $(gameContainer + ' div img').hide();
+    $(gameContainer + ' div').css('visibility', 'visible');
     counter = 0;
     $(showPoints).html('' + counter);
     $(messageForUser).text(" ");
@@ -55,15 +55,15 @@ function OpenCard() {
     let id = $(this).attr('id');
 
     if ($('#' + id + ' img').is(':hidden')) {
-        $(source + ' div').unbind('click', OpenCard);
-
+        $(gameContainer + ' div').unbind('click', OpenCard);
         $('#' + id + ' img').slideDown('fast');
 
+        // if cards mismatch they will hide after 0,7 seconds
         if (imgOpened == '') {
             boxOpened = id;
             imgOpened = $('#' + id + ' img').attr('src');
             setTimeout(function () {
-                $(source + ' div').bind('click', OpenCard)
+                $(gameContainer + ' div').bind('click', OpenCard)
             }, 700);
         } else {
             CurrentOpened = $('#' + id + ' img').attr('src');
@@ -74,6 +74,7 @@ function OpenCard() {
                     boxOpened = '';
                     imgOpened = '';
                 }, 700);
+                // if cards match
             } else {
                 $('#' + id + ' img').parent().css('visibility', 'visible');
                 $("#" + boxOpened + ' img').parent().css('visibility', 'visible');
@@ -82,13 +83,13 @@ function OpenCard() {
                 imgOpened = '';
             }
             setTimeout(function () {
-                $(source + ' div').bind('click', OpenCard)
+                $(gameContainer + ' div').bind('click', OpenCard)
             }, 700);
         }
         // if user win
         counter++;
         $(showPoints).html("" + counter);
-        if (imgFound == imgSource.length) {
+        if (imgFound == imagesForGame.length) {
             $(messageForUser).text('Wygrana! Ilość prób ' + counter + '!');
         }
     }
@@ -96,10 +97,10 @@ function OpenCard() {
 
 $(function () {
     for (let y = 1; y < 3; y++) {
-        $.each(imgSource, function (i, val) {
-            $(source).append('<div id=card' + y + i + '><img src=' + val + ' />');
+        $.each(imagesForGame, function (i, val) {
+            $(gameContainer).append('<div id=card' + y + i + '><img src=' + val + ' />');
         });
     }
-    $(source + ' div').click(OpenCard);
+    $(gameContainer + ' div').click(OpenCard);
     ShuffleImages();
 });
